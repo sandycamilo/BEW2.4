@@ -8,7 +8,8 @@ class Blockchain(object):
         self.chain = [] #chain list will store our blockchain
         self.pending_transactions = [] # transactions will be stored in the current_transacations array
         self.new_block(previous_hash="The Times 03/Jan/2009 Chancellor on brink of second bailout for banks.", proof=100)
-​
+
+
     #Creates new blocks and then adds them to the existing chain
     def new_block(self, proof, previous_hash=None):
         """
@@ -30,7 +31,8 @@ class Blockchain(object):
         self.pending_transactions = []
         self.chain.append(block)
         return block
-​
+
+
     #Calls and returns the last block of the chain
     @property
     def last_block(self):
@@ -39,7 +41,7 @@ class Blockchain(object):
         """
         return self.chain[-1]
 
-​    #This function adds a new transaction to already existing transactions
+    #This function adds a new transaction to already existing transactions
     def new_transaction(self, sender, recipient, amount):
         """
         Add a transaction with relevant info to the 'blockpool' - list of pending tx's.
@@ -52,7 +54,8 @@ class Blockchain(object):
         self.pending_transactions.append(transaction)
         # Return the index of the block to which our new transaction will be added.
         return self.last_block['index'] + 1
-​
+
+
     #Used for hashing a block
     def hash(self, block):
         """
@@ -61,14 +64,14 @@ class Blockchain(object):
         Hash with SHA256 encryption, then translate the Unicode into a hexidecimal string.
         """
         string_object = json.dumps(block, sort_keys=True)
-​
+
         # Convert the string into bytes for the hash function.
         block_string = string_object.encode()
         raw_hash = hashlib.sha256(block_string)
-​
+
         # Return the encoded data in hexadecimal format.
         hex_hash = raw_hash.hexdigest()
-​
+
         return hex_hash
     
     def proof_of_work(self, last_proof):
@@ -83,21 +86,19 @@ class Blockchain(object):
     def valid_proof(last_proof, proof):
 
         guess = f'{last_proof}{proof}'.encode()
-        guess_hash = hashlib.sha256(guess).hexigest()
+        guess_hash = hashlib.sha256(guess).hexdigest()
 
         return guess_hash[:4] == "0000"
-​
+
 blockchain = Blockchain()
 t1 = blockchain.new_transaction("Satoshi", "Mike", '5 BTC')
 t2 = blockchain.new_transaction("Mike", "Satoshi", '1 BTC')
 t3 = blockchain.new_transaction("Satoshi", "Hal", '5 BTC')
 blockchain.new_block(12345)
-​
+
 t4 = blockchain.new_transaction("Mike", "Alice", '1 BTC')
 t5 = blockchain.new_transaction("Alice", "Bob", '0.5 BTC')
 t6 = blockchain.new_transaction("Bob", "Mike", '0.5 BTC')
 blockchain.new_block(6789)
-​
+
 print("Genesis block: ", blockchain.chain)
-
-
