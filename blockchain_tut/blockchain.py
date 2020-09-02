@@ -7,10 +7,8 @@ class Blockchain(object):
     def __init__(self): #constructor that initiates the chain and transaction list
         self.chain = [] #chain list will store our blockchain
         self.pending_transactions = [] # transactions will be stored in the current_transacations array
-        
         self.new_block(previous_hash="The Times 03/Jan/2009 Chancellor on brink of second bailout for banks.", proof=100)
 ​
-
     #Creates new blocks and then adds them to the existing chain
     def new_block(self, proof, previous_hash=None):
         """
@@ -73,6 +71,21 @@ class Blockchain(object):
 ​
         return hex_hash
     
+    def proof_of_work(self, last_proof):
+
+        proof = 0
+        while self.valid_proof(last_proof, proof) is False:
+            proof +=1
+        return proof
+
+
+    @staticmethod
+    def valid_proof(last_proof, proof):
+
+        guess = f'{last_proof}{proof}'.encode()
+        guess_hash = hashlib.sha256(guess).hexigest()
+
+        return guess_hash[:4] == "0000"
 ​
 blockchain = Blockchain()
 t1 = blockchain.new_transaction("Satoshi", "Mike", '5 BTC')
