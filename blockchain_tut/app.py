@@ -6,7 +6,7 @@ from flask import Flask, jsonify
 #creatubg the app node
 app = Flask(__name__)
 
-node_identifier = str(uuid4()).replace(‘-‘,”)
+node_identifier = str(uuid4()).replace(‘-’, “”)
 
 # Initializing blockchain
 blockchain = Blockchain()
