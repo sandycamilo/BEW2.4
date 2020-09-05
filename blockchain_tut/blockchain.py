@@ -56,7 +56,7 @@ class Blockchain(object):
         return self.last_block['index'] + 1
 
 
-    #Used for hashing a block
+    #Used for hashing a block ~ creates the hash for a block
     def hash(self, block):
         """
         Receive one block.
@@ -74,14 +74,14 @@ class Blockchain(object):
 
         return hex_hash
     
+    #method where consensus algorithm is implemented
     def proof_of_work(self, last_proof):
-
         proof = 0
         while self.valid_proof(last_proof, proof) is False:
             proof +=1
         return proof
 
-
+    #Will ensure whether a submitted block to the chain solves the problem
     @staticmethod
     def valid_proof(last_proof, proof):
 
@@ -89,6 +89,8 @@ class Blockchain(object):
         guess_hash = hashlib.sha256(guess).hexdigest()
 
         return guess_hash[:4] == "0000"
+
+
 
 blockchain = Blockchain()
 t1 = blockchain.new_transaction("Satoshi", "Mike", '5 BTC')

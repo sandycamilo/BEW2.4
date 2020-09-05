@@ -11,17 +11,20 @@ node_identifier = str(uuid4()).replace('-', "")
 blockchain = Blockchain()
 
 @app.route('/mine', methods=['GET'])
+#make proof of work algorithm work
 def mine():
     last_block = blockchain.last_block
     last_proof = last_block['proof']
     proof = blockchain.proof_of_work(last_proof)
-     
+    
+    #rewarding the miner for his contribution, 0 specifies new coin has been mined 
     blockchain.new_transaction (
        sender="0",
        recipient = node_identifier,
        amount = 1,
    )
 
+    #create the new block and add it to the chain
     previous_hash = blockchain.hash(last_block)
     block = blockchain.new_block(proof, previous_hash)
 
@@ -41,7 +44,6 @@ def new_transaction():
     values = request.get_json()
 
     # Checking if the required data is there or not
-
     required = ['sender','recipient','amount']
     if not all(k in values for k in required):
         return 'Missing values', 400
